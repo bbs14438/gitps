@@ -2,10 +2,14 @@
 
 #查看版本更改gitk
 
-$root=Get-Location
-$currentDic=$root.Path
-$rootdir=split-path -parent $currentDic
-
+$gitpsLocation=Get-Location
+$gitpsDic=$gitpsLocation.Path
+$rootdir=$gitpsDic
+$gitpsParentDic=split-path -parent $gitpsDic
+$gitpsParentParentDic=split-path -parent $gitpsParentDic
+Write-Host -ForegroundColor Green ‘$gitpsDic:' $gitpsDic
+Write-Host -ForegroundColor Green ‘$gitpsParentDic:' $gitpsParentDic
+Write-Host -ForegroundColor Green ‘$gitpsParentParentDic:' $gitpsParentParentDic
 
 function SynSrc($orignalDir,$srcDir,$projectName,$git)
 {
@@ -13,9 +17,9 @@ function SynSrc($orignalDir,$srcDir,$projectName,$git)
 #Write-Host  $srcdir
 Write-Host -ForegroundColor Green ‘---------' $projectName '------开始------'
 #尝试克隆，不存在本地目录时成功
-git clone $git $srcdir
+git clone $git $gitpsParentDic'/'$srcdir
 #进入解决方案目录
-cd $srcdir
+cd $gitpsParentDic'/'$srcdir
 
 #撤销本地修改
 git checkout -- . 
@@ -25,11 +29,11 @@ git fetch --all
 git reset --hard origin/master 
 
 Write-Host -ForegroundColor Green ‘********' $projectName '*******完成******'
-#返回git根目录
-cd $orignalDir
+#返回gitps目录
+cd $gitpsDic
 }
 
-#SynSrc -orignalDir $rootdir -srcDir "HackedTeam/#" -projectName "HackedTeam/#" -git "https://github.com/hackedteam/#.git"
+#SynSrc -orignalDir $rootdir -srcDir $gitpsParentDic'HackedTeam/#' -projectName "HackedTeam/#" -git "https://github.com/hackedteam/#.git"
 
 
 
