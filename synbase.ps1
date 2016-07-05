@@ -13,13 +13,14 @@ Write-Host -ForegroundColor Green ‘$gitpsParentParentDic:' $gitpsParentParentDi
 
 function SynSrc($orignalDir,$srcDir,$projectName,$git)
 {
+$tempsrcDir=$gitpsParentDic+'\'+$srcdir
 #Write-Host  $orignalDir
 #Write-Host  $srcdir
 Write-Host -ForegroundColor Green ‘---------' $projectName '------开始------'
 #尝试克隆，不存在本地目录时成功
-git clone $git $gitpsParentDic'/'$srcdir
+git clone $git $tempsrcDir
 #进入解决方案目录
-cd $gitpsParentDic'/'$srcdir
+cd $tempsrcDir
 
 #撤销本地修改
 git checkout -- . 
